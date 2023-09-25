@@ -1,4 +1,4 @@
-import Provider from '@/lib/provider'
+import Provider from '@/lib/Provider'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
