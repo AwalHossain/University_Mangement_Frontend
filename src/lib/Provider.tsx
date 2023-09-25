@@ -1,11 +1,20 @@
-import { ChildrenProps } from './types'
+'use client';
+
+import { store } from '@/redux/store';
+import { Provider } from 'react-redux';
+import StyledComponentsRegistry from './AntdRegistry';
+import { ChildrenProps } from './types';
 
 
 
-const Provider = ({ children }: ChildrenProps) => {
+const Providers = ({ children }: ChildrenProps) => {
     return (
-        <Provider>{children}</Provider>
+        <Provider store={store}>
+            <StyledComponentsRegistry>
+                {children}
+            </StyledComponentsRegistry>
+        </Provider>
     )
 }
 
-export default Provider
+export default Providers
