@@ -1,3 +1,6 @@
+
+'use client'
+
 import { FormProvider, SubmitErrorHandler, useForm } from "react-hook-form";
 
 type FormConfig = {
@@ -17,9 +20,9 @@ const Form = ({
 
     const FormConfig: FormConfig = {};
 
-    if (!!defaultValues) FormConfig['defaultValues'] = defaultValues as FormConfig['defaultValues'];
+    if (!!defaultValues) FormConfig['defaultValues'] = defaultValues;
 
-    const methods = useForm()
+    const methods = useForm<FormProps>(FormConfig)
 
     const { handleSubmit, reset } = methods;
     const onSubmit = (data: any) => {

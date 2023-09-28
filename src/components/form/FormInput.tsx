@@ -1,7 +1,7 @@
 
-
+'use client'
 import { Input } from "antd";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 interface IInput {
     name: string;
@@ -19,14 +19,14 @@ const FormInput = ({
     type,
     size,
     placeholder,
-    value = "",
-    id = "",
-    validation = {},
+    value,
+    id,
+    validation,
     label,
 }: IInput) => {
 
 
-    const { control } = useForm();
+    const { control } = useFormContext();
 
     return (
         <>
