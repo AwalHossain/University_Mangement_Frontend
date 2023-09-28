@@ -2,6 +2,8 @@
 
 import Form from '@/components/form/Form';
 import FormInput from '@/components/form/FormInput';
+import { useUserLoginMutation } from '@/redux/api/authApi';
+import { storeUserInfo } from '@/service/auth.service';
 import { Button, Col, Row } from 'antd';
 import Image from 'next/image';
 import { SubmitErrorHandler } from 'react-hook-form';
@@ -13,9 +15,13 @@ type FormValues = {
 }
 
 const Login = () => {
-
-    const onsubmit: SubmitErrorHandler<FormValues> = async (data: any) => {
-        console.log(data)
+    const [userLogin] = useUserLoginMutation();
+    const onSubmit: SubmitErrorHandler<FormValues> = async (data: any) => {
+        const res = await userLogin(data).unwrap();
+        if (res.success) {
+            console.log(res);
+            storeUserInfo({ acessToken: res?.data?.accessToken })
+        }
     }
 
     return (
@@ -30,31 +36,35 @@ const Login = () => {
                 <Image src={LoginImage} width={500} alt="login" />
             </Col>
             <Col sm={12} md={8} lg={8} >
-                <h1 style={{
-                    margin: "15px 0px",
-                }}>First Login User</h1>
-                <Form submitHandler={onsubmit} >
-                    <div
-                        style={{
-                            margin: "15px 0px",
-                        }}
-                    >
-                        <FormInput
-                            type='text'
-                            name='id' placeholder='user id' size='large' label='User Id' />
-                    </div>
-                    <div
-                        style={{
-                            margin: "15px 0px",
-                        }}
-                    >
-                        <FormInput
-                            type='password'
-                            name='password' placeholder='user password' size='large' label='User password' />
-                    </div>
-
-                    <Button type='primary' htmlType='submit' size='large' block> Submit </Button>
-                </Form>
+                <h1
+                    style={{
+                        margin: "15px 0px",
+                    }}
+                >
+                    First login your account
+                </h1>
+                <div>
+                    <Form submitHandler={onSubmit}>
+                        <div>
+                            <FormInput name="id" type="text" size="large" label="User Id" />
+                        </div>
+                        <div
+                            style={{
+                                margin: "15px 0px",
+                            }}
+                        >
+                            <FormInput
+                                name="password"
+                                type="password"
+                                size="large"
+                                label="User Password"
+                            />
+                        </div>
+                        <Button type="primary" htmlType="submit">
+                            Login
+                        </Button>
+                    </Form>
+                </div>
             </Col>
         </Row >
     )
