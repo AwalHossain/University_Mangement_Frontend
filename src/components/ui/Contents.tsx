@@ -1,11 +1,12 @@
 
 import { ChildrenProps } from '@/lib/types';
 import { Layout } from 'antd';
-import Item from 'antd/es/list/Item';
+import UMbreadCrumb from './UMbreadCrumb';
 const { Header, Content, Footer, Sider } = Layout;
 
 
 const Contents = ({ children }: ChildrenProps) => {
+    const base = 'admin'
     return (
         <Layout style={{
             minHeight: '100vh',
@@ -13,7 +14,20 @@ const Contents = ({ children }: ChildrenProps) => {
             backgroundColor: '',
         }}>
 
-            <Item>Hello</Item>
+            <UMbreadCrumb
+                items={
+                    [
+                        {
+                            label: 'Home',
+                            link: `/${base}/home`
+                        },
+                        {
+                            label: 'Manage Student',
+                            link: `/${base}/manage-student`
+                        }
+                    ]
+                }
+            />
         </Layout>
     )
 }
