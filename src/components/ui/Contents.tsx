@@ -1,8 +1,9 @@
 
 import { ChildrenProps } from '@/lib/types';
 import { Layout } from 'antd';
+import Header from './Header';
 import UMbreadCrumb from './UMbreadCrumb';
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 
 const Contents = ({ children }: ChildrenProps) => {
@@ -14,6 +15,7 @@ const Contents = ({ children }: ChildrenProps) => {
             backgroundColor: '',
         }}>
 
+            <Header />
             <UMbreadCrumb
                 items={
                     [
@@ -28,6 +30,7 @@ const Contents = ({ children }: ChildrenProps) => {
                     ]
                 }
             />
+            {children}
         </Layout>
     )
 }
