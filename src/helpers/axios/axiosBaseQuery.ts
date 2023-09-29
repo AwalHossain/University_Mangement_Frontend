@@ -1,7 +1,7 @@
 import { IMeta } from '@/types'
 import type { BaseQueryFn } from '@reduxjs/toolkit/query'
 import type { AxiosError, AxiosRequestConfig } from 'axios'
-import axios from 'axios'
+import { instance as AxisInstance } from './axiosIntstance'
 
 export const axiosBaseQuery =
     (
@@ -20,7 +20,7 @@ export const axiosBaseQuery =
     > =>
         async ({ url, method, data, params }) => {
             try {
-                const result = await axios({
+                const result = await AxisInstance({
                     url: baseUrl + url, method, data, params,
                     headers: {
                         'Content-Type': 'application/json',
