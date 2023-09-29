@@ -34,7 +34,10 @@ const UMbreadCrumb = (
     ]
 
     return (
-        <Breadcrumb items={breadcrumbItems}></Breadcrumb>
+        <Breadcrumb style={{
+            margin: '0px 10px'
+        }}
+            items={breadcrumbItems}></Breadcrumb>
     )
 }
 
