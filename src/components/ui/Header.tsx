@@ -1,15 +1,16 @@
 import { removeUserInfo } from '@/service/auth.service';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Layout, MenuProps, Row, Space } from 'antd';
+import { useRouter } from 'next/navigation';
 const { Header: AntHeader } = Layout
 
 
 const Header = () => {
 
-
+    const router = useRouter();
     const logout = () => {
         removeUserInfo();
-        console.log('logout')
+        router.push("/login");
     }
 
     const items: MenuProps['items'] = [
