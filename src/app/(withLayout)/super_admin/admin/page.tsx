@@ -1,4 +1,7 @@
+import ActionBar from "@/components/ui/ActionBar"
 import UMbreadCrumb from "@/components/ui/UMbreadCrumb"
+import { Button } from "antd"
+import Link from "next/link"
 
 const Admin = () => {
     const base = 'super_admin'
@@ -14,7 +17,14 @@ const Admin = () => {
                     ]
                 }
             />
-            Admin Page for Super Admin</div>
+
+            <ActionBar title="Admin List">
+                <Link href={`/${base}/admin/create`}>
+                    <Button type="primary">Add Admin</Button>
+                </Link>
+            </ActionBar>
+
+        </div>
     )
 }
 
