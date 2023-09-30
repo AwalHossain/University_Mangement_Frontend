@@ -1,7 +1,20 @@
+import UMbreadCrumb from "@/components/ui/UMbreadCrumb"
 
 const Admin = () => {
+    const base = 'super_admin'
     return (
-        <div>Admin Page for Super Admin</div>
+        <div>
+            <UMbreadCrumb
+                items={
+                    [
+                        {
+                            label: `${base}`,
+                            link: `/${base}`
+                        },
+                    ]
+                }
+            />
+            Admin Page for Super Admin</div>
     )
 }
 

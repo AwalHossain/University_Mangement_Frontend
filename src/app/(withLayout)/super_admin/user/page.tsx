@@ -1,21 +1,21 @@
 import UMbreadCrumb from "@/components/ui/UMbreadCrumb"
 
-const DepartmentPage = () => {
-    const base = 'super_admin'
+const UserPage = () => {
     return (
         <div>
             <UMbreadCrumb
                 items={
                     [
                         {
-                            label: `${base}`,
-                            link: `/${base}`
+                            label: 'super_admin',
+                            link: `/super_admin`
                         },
                     ]
                 }
             />
-            Department Page </div>
+
+        </div>
     )
 }
 
-export default DepartmentPage
+export default UserPage

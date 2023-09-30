@@ -13,8 +13,8 @@ const ManageStudentPage = () => {
                     [
 
                         {
-                            label: 'Manage Student',
-                            link: `/${role}/manage-student`
+                            label: 'super_admin',
+                            link: `/${role}`
                         }
                     ]
                 }
