@@ -33,7 +33,11 @@ const CreateAdminPage = () => {
                 }
             />
 
-            <div>
+            <div
+                style={{
+                    padding: '16px',
+                }}
+            >
                 <h1 style={{
                     fontSize: '2rem',
                     fontWeight: 'bold',
