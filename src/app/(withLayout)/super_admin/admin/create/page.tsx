@@ -7,6 +7,8 @@ import FormTextArea from "@/components/form/FormTextArea";
 import UMbreadCrumb from "@/components/ui/UMbreadCrumb";
 import UploadImage from "@/components/ui/UploadImage";
 import { bloodGroupOptions, departmentOptions, genderOptions } from "@/constants/global";
+import { adminSchema } from "@/schemas/adminSchema";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Row } from "antd";
 
 const CreateAdminPage = () => {
@@ -48,7 +50,7 @@ const CreateAdminPage = () => {
 
                 {/* create admin page using react hook form */}
 
-                <Form submitHandler={onSubmit}>
+                <Form submitHandler={onSubmit} resolver={yupResolver(adminSchema)}>
                     <div
                         style={{
                             border: "1px solid #d9d9d9",

@@ -5,6 +5,7 @@ import { FormProvider, SubmitErrorHandler, useForm } from "react-hook-form";
 
 type FormConfig = {
     defaultValues?: Record<string, any>;
+    resolver?: any;
 }
 
 type FormProps = {
@@ -16,11 +17,13 @@ const Form = ({
     children,
     submitHandler,
     defaultValues,
+    resolver
 }: FormProps) => {
 
     const FormConfig: FormConfig = {};
 
     if (!!defaultValues) FormConfig['defaultValues'] = defaultValues;
+    if (!!resolver) FormConfig['resolver'] = resolver;
 
     const methods = useForm<FormProps>(FormConfig)
 
@@ -32,7 +35,7 @@ const Form = ({
 
     return (
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} >
                 {children}
             </form>
         </FormProvider>
