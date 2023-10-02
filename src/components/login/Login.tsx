@@ -4,7 +4,7 @@ import Form from '@/components/form/Form';
 import FormInput from '@/components/form/FormInput';
 import { useUserLoginMutation } from '@/redux/api/authApi';
 import { isLoggedIn, storeUserInfo } from '@/service/auth.service';
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, message } from 'antd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { SubmitErrorHandler } from 'react-hook-form';
@@ -26,6 +26,7 @@ const LoginPage = () => {
 
         if (res?.accessToken) {
             storeUserInfo({ acessToken: res?.accessToken })
+            message.success('Login successfull');
         }
 
         if (isLoggedIn()) {
