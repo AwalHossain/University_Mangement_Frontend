@@ -9,28 +9,22 @@ const ActionBar = ({ title, children }: ActionBarProps) => {
     return (
         <div
             style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
+                padding: '1rem',
             }}
         >
             <div
-
-            >
-                <div
-                    style={{
-                        fontSize: '1.5rem',
-                        fontWeight: 'bold',
-                    }}
-                >{title}</div>
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >{children}</div>
-            </div>
+                style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold',
+                }}
+            >{title}</div>
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
+            >{children}</div>
         </div>
     )
 }
