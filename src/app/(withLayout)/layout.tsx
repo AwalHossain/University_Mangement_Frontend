@@ -18,13 +18,12 @@ const DashboardLayout = ({ children }: ChildrenProps) => {
 
     const router = useRouter();
     const userLoggedIn = isLoggedIn();
-
     useEffect(() => {
         if (!userLoggedIn) {
             router.push('/login')
         }
         setLoading(true);
-    }, [router])
+    }, [router, userLoggedIn])
 
 
     // ...
