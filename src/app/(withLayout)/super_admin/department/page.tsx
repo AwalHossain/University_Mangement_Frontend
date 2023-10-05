@@ -3,108 +3,113 @@
 import ActionBar from "@/components/ui/ActionBar"
 import UMbreadCrumb from "@/components/ui/UMbreadCrumb"
 import UmTable from "@/components/ui/UmTable"
-import { Button, Input, Space, Tag } from "antd"
-import type { ColumnsType } from 'antd/es/table'
+import { useDeleteDepartmentMutation, useDepartmentsQuery } from "@/redux/api/departmentApi"
+import {
+    DeleteOutlined,
+    EditOutlined
+} from "@ant-design/icons"
+import { Button, Input, message } from "antd"
+import dayjs from "dayjs"
 import Link from "next/link"
 import { useState } from "react"
 
 
 interface DataType {
     key: string;
-    name: string;
+    title: string;
     age: number;
     address: string;
     tags: string[];
 }
 
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
-];
 
 
-const columns: ColumnsType<DataType> = [
-    {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text) => <a>{text}</a>,
-    },
-    {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-        sorter: (a, b) => a.age - b.age,
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-    },
-    {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: (_, { tags }) => (
-            <>
-                {tags.map((tag) => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (_, record) => (
-            <Space size="middle">
-                <a>Invite {record.name}</a>
-                <Button type='primary' onClick={() => console.log('deleteing')} >Delete</Button>
-            </Space>
-        ),
-    },
-];
 const DepartmentPage = () => {
     const base = 'super_admin'
+
+    const query: Record<string, any> = {};
+
     const [page, setPag] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(10)
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [sortBy, setSortBy] = useState<string>("");
-    const [order, setOrder] = useState<string>("");
+    const [sortOrder, setOrder] = useState<string>("");
+
+    query['page'] = page
+    query['limit'] = pageSize
+    query['sortBy'] = sortBy
+    query['sortOrder'] = sortOrder
+    query['searchTerm'] = searchTerm
+
+
+    const [deleteDepartment] = useDeleteDepartmentMutation()
+    const { data, isLoading } = useDepartmentsQuery({ ...query })
+
+    const { deparments, meta } = data || {}
+
+    const onSearch = (value: string) => {
+        setSearchTerm(value);
+    }
+
+
+    const deleteHandler = async (id: string) => {
+        message.loading("Deleting.....");
+        try {
+            const data = await deleteDepartment(id);
+            message.success("Department deleted successfully");
+        } catch (error) {
+            message.error("Something went wrong");
+            console.log(error)
+        }
+    };
+
+    const columns = [
+        {
+            title: "Title",
+            dataIndex: "title",
+        },
+        {
+            title: "CreatedAt",
+            dataIndex: "createdAt",
+            render: function (data: any) {
+                return data && dayjs(data).format("MMM D, YYYY hh:mm A");
+            },
+            sorter: true,
+        },
+        {
+            title: "Action",
+            render: function (data: any) {
+                return (
+                    <>
+                        <Link href={`/super_admin/department/edit/${data?.id}`}>
+                            <Button
+                                style={{
+                                    margin: "0px 5px",
+                                }}
+                                onClick={() => console.log(data)}
+                                type="primary"
+                            >
+                                <EditOutlined />
+                            </Button>
+                        </Link>
+                        <Button
+                            onClick={() => deleteHandler(data?.id)}
+                            type="primary"
+                            danger
+                        >
+                            <DeleteOutlined />
+                        </Button>
+                    </>
+                );
+            },
+        },
+    ];
 
     const onPaginationChange = (page: number, noPage: number | undefined) => {
         console.log('page', page, 'pageSize', pageSize);
         setPag(page || 1)
         setPageSize(noPage || 10)
     };
-
 
 
 
@@ -120,9 +125,6 @@ const DepartmentPage = () => {
         console.log('params', sorter, 'min', filters);
     };
 
-    const onSearch = (value: string) => {
-        setSearchTerm(value);
-    }
 
     const resetFilter = () => {
         setSearchTerm("");
@@ -162,19 +164,19 @@ const DepartmentPage = () => {
                         <Button type="primary">Add Department</Button>
                     </Link>
                     {
-                        (!!searchTerm || !!sortBy || !!order) ?
+                        (!!searchTerm || !!sortBy || !!sortOrder) ?
                             <Button type="primary" onClick={resetFilter}>Reset Filter</Button> : null
                     }
                 </div>
             </ActionBar>
             <div>
                 <UmTable
-                    loading={false}
+                    loading={isLoading}
                     pageSize={pageSize}
-                    totalPages={100}
+                    totalPages={meta?.total}
                     showSizeChanger={true}
                     columns={columns}
-                    dataSource={data}
+                    dataSource={deparments}
                     onTableChange={onTableChange}
                     showPagination={true}
                     showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
