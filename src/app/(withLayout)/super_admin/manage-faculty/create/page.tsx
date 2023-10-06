@@ -1,12 +1,14 @@
-import Form from "@/components/form/Form"
-import FormDatePicker from "@/components/form/FormDatePicker"
-import FormInput from "@/components/form/FormInput"
-import FormSelectedField from "@/components/form/FormSelectedField"
-import FormTextArea from "@/components/form/FormTextArea"
-import UMbreadCrumb from "@/components/ui/UMbreadCrumb"
-import UploadImage from "@/components/ui/UploadImage"
-import { bloodGroupOptions, departmentOptions, genderOptions } from "@/constants/global"
-import { Button, Col, Row } from "antd"
+'use client';
+
+import Form from "@/components/form/Form";
+import FormDatePicker from "@/components/form/FormDatePicker";
+import FormInput from "@/components/form/FormInput";
+import FormSelectedField from "@/components/form/FormSelectedField";
+import FormTextArea from "@/components/form/FormTextArea";
+import UMbreadCrumb from "@/components/ui/UMbreadCrumb";
+import UploadImage from "@/components/ui/UploadImage";
+import { bloodGroupOptions, departmentOptions, genderOptions } from "@/constants/global";
+import { Button, Col, Row } from "antd";
 
 const CreateFacultyPage = () => {
 
