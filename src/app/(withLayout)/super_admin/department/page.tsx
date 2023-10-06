@@ -45,7 +45,7 @@ const DepartmentPage = () => {
     const [deleteDepartment] = useDeleteDepartmentMutation()
     const { data, isLoading } = useDepartmentsQuery({ ...query })
 
-    const { deparments, meta } = data || {}
+    const { departments, meta } = data || {}
 
     const onSearch = (value: string) => {
         setSearchTerm(value);
@@ -176,7 +176,7 @@ const DepartmentPage = () => {
                     totalPages={meta?.total}
                     showSizeChanger={true}
                     columns={columns}
-                    dataSource={deparments}
+                    dataSource={departments}
                     onTableChange={onTableChange}
                     showPagination={true}
                     showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
