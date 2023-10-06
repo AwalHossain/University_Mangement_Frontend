@@ -6,16 +6,50 @@ import FormSelectedField from "@/components/form/FormSelectedField";
 import FormTextArea from "@/components/form/FormTextArea";
 import UMbreadCrumb from "@/components/ui/UMbreadCrumb";
 import UploadImage from "@/components/ui/UploadImage";
-import { bloodGroupOptions, departmentOptions, genderOptions } from "@/constants/global";
+import { bloodGroupOptions, genderOptions } from "@/constants/global";
+import { useAddAdminWithFormDataMutation } from "@/redux/api/adminApi";
+import { useDepartmentsQuery } from "@/redux/api/departmentApi";
 import { adminSchema } from "@/schemas/adminSchema";
+import { IDepartment } from "@/types";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row, message } from "antd";
 
 const CreateAdminPage = () => {
-    const base = 'super_admin'
+    const base = 'super_admin';
+    const { data, isLoading } = useDepartmentsQuery(undefined)
+    // @ts-ignore
+    const departments: IDepartment[] = data?.departments;
 
-    const onSubmit = (data: any) => {
-        console.log(data)
+    const departmentOptions =
+        departments &&
+        departments?.map((department) => {
+            return {
+                label: department?.title,
+                value: department?.id,
+            };
+        });
+
+    const [addAdminWithFormData] = useAddAdminWithFormDataMutation();
+
+    const onSubmit = async (data: any) => {
+        console.log(data, 'from admin create page');
+
+        const obj = { ...data };
+        const file = obj['file'];
+        delete obj['file'];
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('data', JSON.stringify(obj));
+        try {
+            message.loading('Please wait...',)
+            const res = await addAdminWithFormData(formData).unwrap();
+            console.log(res, 'from admin create page')
+            message.success('Admin created successfully')
+        } catch (err) {
+            message.error('Something went wrong')
+            console.log(err)
+        }
     }
 
     return (
@@ -126,7 +160,7 @@ const CreateAdminPage = () => {
                                     marginBottom: '10px'
                                 }}
                                 className="gutter-row" span={8}>
-                                <UploadImage />
+                                <UploadImage name="file" />
                             </Col>
                         </Row>
                     </div>
@@ -241,7 +275,7 @@ const CreateAdminPage = () => {
                                 className="gutter-row" span={8}>
                                 <FormTextArea
                                     label="Parmanent Address"
-                                    name="admin.parmanentAddress"
+                                    name="admin.permanentAddress"
                                     placeholder="Parmanent Address"
                                     rows={4}
                                 />
