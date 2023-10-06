@@ -21,18 +21,23 @@ const LoginPage = () => {
 
 
     const onSubmit: SubmitErrorHandler<FormValues> = async (data: any) => {
-        const res = await userLogin(data).unwrap();
-        console.log(res);
+        try {
+            const res = await userLogin(data).unwrap();
+            console.log(res);
 
-        if (res?.accessToken) {
-            storeUserInfo({ acessToken: res?.accessToken })
-            message.success('Login successfull');
+            if (res?.accessToken) {
+                storeUserInfo({ acessToken: res?.accessToken })
+                message.success('Login successfull');
+            }
+
+            if (isLoggedIn()) {
+                router.push('/profile')
+            }
+
+        } catch (err) {
+            console.log(err);
+            message.error('Something went wrong');
         }
-
-        if (isLoggedIn()) {
-            router.push('/profile')
-        }
-
     }
 
     return (
