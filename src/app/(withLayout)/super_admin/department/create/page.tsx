@@ -19,7 +19,6 @@ const CreateDepartmentPage = () => {
             message.success('Department Added Successfully')
         } catch (error) {
             console.error(error);
-
         }
     }
 
