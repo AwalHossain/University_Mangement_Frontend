@@ -9,7 +9,6 @@ export const getErrorMessageByPropertyName = (obj: Record<string, any>, property
     let value = obj;
 
     for (let prop of properties) {
-        console.log(prop, 'checki', value[prop])
         if (value[prop]) {
             value = value[prop]
         }
