@@ -44,7 +44,7 @@ const Sidebar = () => {
                     marginBottom: '1rem',
                 }}
             >
-                Awal-University
+                UMS
             </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={SidebarItems(role)} />
         </Sider>
